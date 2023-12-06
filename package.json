@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "grommet": "^2.34.1",
+    "grommet-icons": "^4.11.0",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
