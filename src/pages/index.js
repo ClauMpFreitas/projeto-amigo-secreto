@@ -11,32 +11,8 @@ import {
 } from "grommet";
 import { FormNext } from "grommet-icons";
 
-const customTheme = deepMerge(grommet, {
-  defaultMode: "customTheme",
-  global: {
-    colors: {
-      "background-back": {
-        dark: "#000080",
-        light: "#EFEFEF",
-      },
-      "background-front": {
-        dark: "#222938",
-        light: "#FFFFFF",
-      },
-      "background-contrast": {
-        dark: "#FFFFFF08",
-        light: "#11111108",
-      },
-      "background-custom": {
-        dark: "#0E5265",
-        light: "#00C8FF",
-      },
-    },
-  },
-});
-
 const Index = () => (
-  <Grommet theme={customTheme} full>
+  <Grommet theme={grommet} full>
     <Page>
       <PageContent>
         <PageHeader title="Bem vindo ao nosso site!!" />
