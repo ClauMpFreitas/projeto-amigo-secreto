@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import {
-  Anchor,
+  Button,
   grommet,
   Grommet,
   Page,
@@ -18,28 +18,29 @@ const Index = () => (
         <PageHeader title="Bem vindo ao nosso site!!" />
         <Paragraph>
           Para se cadastrar{" "}
-          <Anchor
+          <a
             href="https://v2.grommet.io/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Clique aqui
-          </Anchor>
+          </a>
           .
         </Paragraph>
         <Paragraph>
           Para dúvidas ou sugestões{" "}
-          <Anchor
+          <a
             href="https://nextjs.org/docs/getting-started"
             target="_blank"
             rel="noopener noreferrer"
           >
             Entre em contato conosco
-          </Anchor>
+          </a>
           .
         </Paragraph>
         <Link href="/secondpage" passHref>
-          <Anchor
+          <Button
+            as="a"
             alignSelf="start"
             label="Second page"
             icon={<FormNext />}
