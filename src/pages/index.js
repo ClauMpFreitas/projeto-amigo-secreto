@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import {
-  Button,
   grommet,
   Grommet,
   Page,
@@ -9,7 +8,6 @@ import {
   PageHeader,
   Paragraph,
 } from "grommet";
-import { FormNext } from "grommet-icons";
 
 const Index = () => (
   <Grommet theme={grommet} full>
@@ -17,36 +15,23 @@ const Index = () => (
       <PageContent>
         <PageHeader title="Bem vindo ao nosso site!!" />
         <Paragraph>
-          Para se cadastrar{" "}
-          <a
-            href="https://v2.grommet.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Clique aqui
-          </a>
-          .
+          Para fazer login{" "}
+          <Link href="/paginalogin">
+            <a>Clique aqui</a>
+          </Link>
         </Paragraph>
         <Paragraph>
-          Para dúvidas ou sugestões{" "}
-          <a
-            href="https://nextjs.org/docs/getting-started"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Entre em contato conosco
-          </a>
-          .
+          Para se cadastrar{" "}
+          <Link href="/paginadadospessoais">
+            <a>Clique aqui</a>
+          </Link>
         </Paragraph>
-        <Link href="/secondpage" passHref>
-          <Button
-            as="a"
-            alignSelf="start"
-            label="Second page"
-            icon={<FormNext />}
-            reverse
-          />
-        </Link>
+        <Paragraph>
+          Para entrar em contato{" "}
+          <Link href="/secondpage" passHref>
+            <a>Clique aqui</a>
+          </Link>
+        </Paragraph>
       </PageContent>
     </Page>
   </Grommet>
