@@ -1,52 +1,45 @@
 import { Button, Card, Col, DatePicker, Form, Input, Row, Typography } from "antd";
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import TextArea from "antd/es/input/TextArea";
-import moment from 'moment';
+import moment, { Moment } from "moment";
+import { Rule } from "antd/es/form";
 
 export function HomePage() {
-    const onFinish = ({ eventName, eventDescription, drawDate, meetingDate }: { 
-        eventName: 'nome';
-        eventDescription: 'descricao';
-        drawDate: moment.MomentInput;
-        meetingDate: moment.MomentInput;
-      }) => {
-        console.log(eventName, eventDescription, drawDate, meetingDate)
-        const requiredFields = ['eventName', 'eventDescription', 'drawDate', 'meetingDate'];
-      
-        const missingFields = requiredFields.filter(field => !eval(field));
-      
-        if (missingFields.length > 0 && missingFields.length < 4) {
-            console.log('Por favor, preencha todos os campos obrigatórios.');
-            return;
-        }
-        
-        const drawDateMoment = moment(drawDate);
-        const meetingDateMoment = moment(meetingDate);
-        const currentDate = moment();
-      
-        if (!meetingDateMoment.isValid() || !drawDateMoment.isValid()) {
-          console.log('Por favor, insira datas válidas.');
-          return;
-        }
-      
-        if (drawDateMoment.isBefore(currentDate) || meetingDateMoment.isBefore(currentDate)) {
-          console.log('A data do sorteio ou do encontro não podem ser menores que o dia corrente');
-          return;
-        }
-      
-        if (meetingDateMoment.isSameOrBefore(drawDateMoment)) {
-          console.log('A data do encontro deve ser posterior à data do sorteio.');
-          return;
-        }
-      
-        console.log('Success:', { eventName, eventDescription, drawDate, meetingDate });
-      };
-      
-      const onFinishFailed = (errorInfo: unknown) => {
-        console.log('Failed:', errorInfo);
-      };
+    const validateDate = (_rule: Rule, value: Moment | string | null | undefined): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            if (!value) {
+                // Se o valor for nulo ou indefinido, considera válido (ou você pode tratar de outra forma)
+                resolve();
+                return;
+            }
+    
+            const currentDate = moment();
+            const selectedDate = moment(value);
+    
+            if (selectedDate.isBefore(currentDate, 'day') || selectedDate.isSame(currentDate, 'day')) {
+                reject('Por favor, insira uma data futura válida.'); // A data está no passado ou é igual à data atual
+            } else {
+                resolve(); // A data é no futuro
+            }
+        });
+    };
 
-     return (
+    const onFinish = (values: unknown) => {
+        console.log('Success:', values);
+    };
+      
+    const onFinishFailed = (errorInfo: unknown) => {
+        console.log('Failed:', errorInfo);
+    };
+
+    type FieldType = {
+        nomeevento?: string;
+        descricao?: string;
+        datasorteio?: Moment;
+        dataencontro?: Moment;
+    };
+
+    return (
         <>
         <Row gutter={24}>
             <Col span={12}>
@@ -61,17 +54,39 @@ export function HomePage() {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 >
-                <Form.Item name="nome "label="Nome do evento" required>
+                <Form.Item<FieldType>
+                    name="nomeevento"
+                    label="Nome do evento"
+                    rules={[{ required: true, message: 'Insira o nome do evento.' }]}
+                >
                     <Input/>
                 </Form.Item>
-                <Form.Item name="descricao" label="Descrição do evento" required>
+                <Form.Item<FieldType>
+                    name="descricao"
+                    label="Descrição do evento"
+                    rules={[{ required: true, message: 'Insira a descrição do evento.' }]}
+                    >
                     <TextArea rows={4} />
                 </Form.Item>
-                <Form.Item name="datasorteio" label="Data do sorteio" required>
-                    <DatePicker />
+                <Form.Item<FieldType>
+                    name="datasorteio"
+                    label="Data do sorteio"
+                    rules={[
+                        { required: true, message: 'Insira uma data válida.' },
+                        { validator: validateDate },
+                    ]}
+                    >
+                    <DatePicker/>
                 </Form.Item>
-                <Form.Item name="dataencontro" label="Data do encontro" required>
-                    <DatePicker />
+                <Form.Item<FieldType>
+                    name="dataencontro"
+                    label="Data do encontro"
+                    rules={[
+                        { required: true, message: 'Insira uma data válida.' },
+                        { validator: validateDate },
+                    ]}
+                    >
+                    <DatePicker/>
                 </Form.Item>
                 <Form.Item>
                 <Button type="primary" htmlType="submit">Enviar dados</Button>
@@ -83,4 +98,3 @@ export function HomePage() {
         </>
     )
 }
-
