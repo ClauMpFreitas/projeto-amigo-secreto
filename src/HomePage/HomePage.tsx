@@ -1,42 +1,66 @@
-import { Button, Card, Col, DatePicker, Form, Input, Row, Typography } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Row, Typography, notification } from "antd";
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import TextArea from "antd/es/input/TextArea";
 import moment, { Moment } from "moment";
 import { Rule } from "antd/es/form";
 
 export function HomePage() {
-    const validateDate = (_rule: Rule, value: Moment | string | null | undefined): Promise<void> => {
+    const validateDate = async (_rule: Rule, values: { dataencontro: Moment | null | undefined, datasorteio: Moment | null | undefined }): Promise<void> => {
         return new Promise((resolve, reject) => {
-            if (!value) {
-                // Se o valor for nulo ou indefinido, considera válido (ou você pode tratar de outra forma)
+            if (!values || (!values.dataencontro && !values.datasorteio)) {
                 resolve();
                 return;
             }
     
             const currentDate = moment();
-            const selectedDate = moment(value);
+            const dateEncontro = values.dataencontro;
+            const dateSorteio = values.datasorteio;
     
-            if (selectedDate.isBefore(currentDate, 'day') || selectedDate.isSame(currentDate, 'day')) {
-                reject('Por favor, insira uma data futura válida.'); // A data está no passado ou é igual à data atual
+            if (dateEncontro && dateSorteio) {
+                if (dateEncontro.isBefore(currentDate, 'day') || dateSorteio.isBefore(currentDate, 'day')) {
+                    notification.info({
+                        message: 'Info',
+                        description: 'A data não pode ser anterior ao dia corrente.'
+                    });
+                } else {
+                    resolve();
+                }
             } else {
-                resolve(); // A data é no futuro
+                notification.info({
+                    message: 'Info',
+                    description: 'Por favor, preencha ambas as datas.'
+                });
+                reject('Por favor, preencha ambas as datas.');
             }
         });
     };
 
-    const onFinish = (values: unknown) => {
-        console.log('Success:', values);
-    };
-      
-    const onFinishFailed = (errorInfo: unknown) => {
-        console.log('Failed:', errorInfo);
+    const onFinish = (values: { dataencontro: Moment, datasorteio: Moment }) => {
+        validateDate({}, values)
+            .then(() => {
+                const dateEncontro = values.dataencontro;
+                const dateSorteio = values.datasorteio;
+    
+                if (dateEncontro.isBefore(dateSorteio, 'day') || dateEncontro.isSame(dateSorteio, 'day')) {
+                    notification.error({
+                        message: 'Erro',
+                        description: 'A data de encontro não pode ser igual ou anterior à data de sorteio.'
+                    });
+                    return;
+                }
+    
+                notification.success({
+                    message: 'Sucesso',
+                    description: 'Dados enviados com sucesso!'
+                });
+            })
     };
 
     type FieldType = {
         nomeevento?: string;
         descricao?: string;
-        datasorteio?: Moment;
-        dataencontro?: Moment;
+        datasorteio?: Moment | undefined;
+        dataencontro?: Moment | undefined;
     };
 
     return (
@@ -52,7 +76,6 @@ export function HomePage() {
                 <Form
                 name="eventForm"
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 >
                 <Form.Item<FieldType>
                     name="nomeevento"
@@ -72,7 +95,7 @@ export function HomePage() {
                     name="datasorteio"
                     label="Data do sorteio"
                     rules={[
-                        { required: true, message: 'Insira uma data válida.' },
+                        { required: true, message: 'Insira a data.' },
                         { validator: validateDate },
                     ]}
                     >
@@ -82,7 +105,7 @@ export function HomePage() {
                     name="dataencontro"
                     label="Data do encontro"
                     rules={[
-                        { required: true, message: 'Insira uma data válida.' },
+                        { required: true, message: 'Insira a data.' },
                         { validator: validateDate },
                     ]}
                     >
