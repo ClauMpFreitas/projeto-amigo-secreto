@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ScreenSC } from './AppStyles';
 import { HomePage } from './HomePage/HomePage';
-import { AddPeople } from './AddPeople/AddPeople';
+import { AddPeople } from './AddPeople/AddPeople'
 
 function App() {
   return (
