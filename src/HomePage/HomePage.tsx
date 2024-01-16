@@ -1,12 +1,9 @@
-import { Button, Card, Col, DatePicker, Form, Input, Row, Typography } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Row, Typography, notification } from "antd";
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import TextArea from "antd/es/input/TextArea";
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
 
 export function HomePage() {
-  const navigate = useNavigate();
-
     const onFinish = ({ eventName, eventDescription, drawDate, meetingDate }: { 
         eventName: 'nome';
         eventDescription: 'descricao';
@@ -43,15 +40,13 @@ export function HomePage() {
         }
       
         console.log('Success:', { eventName, eventDescription, drawDate, meetingDate });
-
-        navigate('/addpeople');
       };
       
       const onFinishFailed = (errorInfo: unknown) => {
         console.log('Failed:', errorInfo);
       };
 
-     return (
+    return (
         <>
         <Row gutter={24}>
             <Col span={12}>
@@ -64,19 +59,38 @@ export function HomePage() {
                 <Form
                 name="eventForm"
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 >
-                <Form.Item name="nome "label="Nome do evento" required>
+                <Form.Item<FieldType>
+                    name="nomeevento"
+                    label="Nome do evento"
+                    rules={[{ required: true, message: 'Insira o nome do evento.' }]}
+                >
                     <Input/>
                 </Form.Item>
-                <Form.Item name="descricao" label="Descrição do evento" required>
+                <Form.Item<FieldType>
+                    name="descricao"
+                    label="Descrição do evento"
+                    rules={[{ required: true, message: 'Insira a descrição do evento.' }]}
+                    >
                     <TextArea rows={4} />
                 </Form.Item>
-                <Form.Item name="datasorteio" label="Data do sorteio" required>
-                    <DatePicker />
+                <Form.Item<FieldType>
+                    name="datasorteio"
+                    label="Data do sorteio"
+                    rules={[
+                        { required: true, message: NOTIFICATION_MESSAGES.INFO_FILL_DATES}
+                    ]}
+                    >
+                    <DatePicker/>
                 </Form.Item>
-                <Form.Item name="dataencontro" label="Data do encontro" required>
-                    <DatePicker />
+                <Form.Item<FieldType>
+                    name="dataencontro"
+                    label="Data do encontro"
+                    rules={[
+                        { required: true, message: NOTIFICATION_MESSAGES.INFO_FILL_DATES}
+                    ]}
+                    >
+                    <DatePicker/>
                 </Form.Item>
                 <Form.Item>
                 <Button type="primary" htmlType="submit">Enviar dados</Button>
@@ -88,4 +102,3 @@ export function HomePage() {
         </>
     )
 }
-
