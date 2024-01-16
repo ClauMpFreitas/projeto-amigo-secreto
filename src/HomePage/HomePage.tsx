@@ -2,8 +2,11 @@ import { Button, Card, Col, DatePicker, Form, Input, Row, Typography } from "ant
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import TextArea from "antd/es/input/TextArea";
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 export function HomePage() {
+  const navigate = useNavigate();
+
     const onFinish = ({ eventName, eventDescription, drawDate, meetingDate }: { 
         eventName: 'nome';
         eventDescription: 'descricao';
@@ -40,6 +43,8 @@ export function HomePage() {
         }
       
         console.log('Success:', { eventName, eventDescription, drawDate, meetingDate });
+
+        navigate('/addpeople');
       };
       
       const onFinishFailed = (errorInfo: unknown) => {
