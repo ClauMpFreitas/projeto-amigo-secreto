@@ -2,6 +2,7 @@ import { Button, Card, Col, DatePicker, Form, Input, Row, Typography, notificati
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import TextArea from "antd/es/input/TextArea";
 import moment, { Moment } from "moment";
+import { useNavigate } from 'react-router-dom';
 
 export type CustomValidationError = {
     message: string;
@@ -49,10 +50,13 @@ const validateDate = (dateEncontro: Moment | undefined, dateSorteio: Moment | un
   };
 
 export function HomePage() {
+    const navigate = useNavigate();
+
     const onFinish = (values: { dataencontro: Moment, datasorteio: Moment }) => {
         try {
             validateDate(values.dataencontro, values.datasorteio);
             showInfoNotification('Sucesso', NOTIFICATION_MESSAGES.SUCCESS_SUBMIT);
+            navigate('/addpeople');
         } catch (error) {
             console.error(isCustomValidationError(error) ? error.message : 'Ocorreu um erro desconhecido.');
         }
@@ -66,12 +70,12 @@ export function HomePage() {
         <>
         <Row gutter={24}>
         <Col span={12}>
-        <div style={{ marginLeft: '20px' }}>
-            <Typography.Title level={1}>Amigo Almoço</Typography.Title>
-            <Typography.Text>Bem-vindo ao nosso aplicativo para gerenciar amigo almoço</Typography.Text>
-            <GiftAndPersonsSvg/>
-        </div>
-    </Col>
+            <div style={{ marginLeft: '20px' }}>
+                <Typography.Title level={1}>Amigo Almoço</Typography.Title>
+                <Typography.Text>Bem-vindo ao nosso aplicativo para gerenciar amigo almoço</Typography.Text>
+                <GiftAndPersonsSvg/>
+            </div>
+        </Col>
             <Col span={12}>
                 <Card style={{ width: 400, height: 380 }}>
                 <Form
