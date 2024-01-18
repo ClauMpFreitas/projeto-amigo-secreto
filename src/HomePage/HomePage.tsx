@@ -69,13 +69,13 @@ export function HomePage() {
     return (
         <>
         <Row gutter={24}>
-            <Col span={12}>
+        <Col span={12}>
             <div style={{ marginLeft: '20px' }}>
-            <Typography.Title level={1}>Amigo Almoço</Typography.Title>
-            <Typography.Text>Bem-vindo ao nosso aplicativo para gerenciar amigo almoço</Typography.Text>
-            <GiftAndPersonsSvg/>
+                <Typography.Title level={1}>Amigo Almoço</Typography.Title>
+                <Typography.Text>Bem-vindo ao nosso aplicativo para gerenciar amigo almoço</Typography.Text>
+                <GiftAndPersonsSvg/>
             </div>
-            </Col>
+        </Col>
             <Col span={12}>
                 <Card style={{ width: 400, height: 380 }}>
                 <Form
