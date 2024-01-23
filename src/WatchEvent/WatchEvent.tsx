@@ -29,7 +29,7 @@ export function WatchEvent() {
           </div>
         </Col>
         <Col span={12}>
-          <Card style={{ width: 400, height: 400 }}>
+          <Card style={{ width: 400, height: 450 }}>
             <div style={{ marginBottom: '5px' }}>
               <Typography.Title level={2} style={{ marginTop: '3px' }}>Detalhes do Evento</Typography.Title>
               <Typography.Text strong>Nome do Evento: </Typography.Text>
