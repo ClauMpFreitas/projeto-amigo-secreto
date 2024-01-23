@@ -8,7 +8,8 @@ export function WatchEvent() {
   const [generatedLink, setGeneratedLink] = useState<string | null>(null);
 
   const generateEventLink = () => {
-    const eventLink = `https://amigoalmoco.com/${eventInfo.nomeevento}`;
+    const eventName = eventInfo.nomeevento || '';
+    const eventLink = `https://amigoalmoco.com/${eventName.replace(/\s/g, '-')}`;
     return eventLink;
   };
 
