@@ -2,10 +2,12 @@ import { Button, Card, Col, Row, Typography } from "antd";
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import { useAppContext } from '../AppContext';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function WatchEvent() {
   const { eventInfo, participants } = useAppContext();
   const [generatedLink, setGeneratedLink] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const generateEventLink = () => {
     const eventName = eventInfo.nomeevento || '';
@@ -16,6 +18,10 @@ export function WatchEvent() {
   const handleGenerateLink = () => {
     const link = generateEventLink();
     setGeneratedLink(link);
+  };
+
+  const handleLinkClick = () => {
+    navigate("/cadastroparticipants");
   };
 
   return (
@@ -59,14 +65,14 @@ export function WatchEvent() {
                 Gerar Link para o Evento
             </Button>
             <div style={{ marginTop: '8px' }}>
-                <Typography.Text strong>Link Gerado: </Typography.Text>
-                {generatedLink ? (
-                <a href={generatedLink} target="_blank" rel="noopener noreferrer">
-                    {generatedLink}
+              <Typography.Text strong>Link Gerado: </Typography.Text>
+              {generatedLink ? (
+                <a href="#" onClick={handleLinkClick}>
+                  {generatedLink}
                 </a>
-                ) : (
+              ) : (
                 <Typography.Text>Nenhum link gerado ainda</Typography.Text>
-                )}
+              )}
             </div>
           </Card>
         </Col>

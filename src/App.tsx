@@ -4,6 +4,7 @@ import { HomePage } from './HomePage/HomePage';
 import { AddPeople } from './AddPeople/AddPeople';
 import { AppProvider } from './AppContext';
 import { WatchEvent } from './WatchEvent/WatchEvent';
+import { CadastroParticipants } from './CadastroParticipants/CadastroParticipants';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/addpeople" element={<AddPeople />} />
             <Route path="/watchevent" element={<WatchEvent />} />
+            <Route path='/cadastroparticipants' element={<CadastroParticipants/>}/>
           </Routes>
         </ScreenSC>
       </AppProvider>
