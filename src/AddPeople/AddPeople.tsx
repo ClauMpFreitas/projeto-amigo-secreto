@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import { GiftAndPersonsSvg } from "../assets/Svgs/GiftAndPersonsSvg";
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../AppContext';
 
 export function AddPeople() {
-  const [participants, setParticipants] = useState<string[]>([]);
+  const { participants, setParticipants } = useAppContext();
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ export function AddPeople() {
   };
 
   const onNextPage = () => {
+    alert('Dados enviados com sucesso!');
     navigate('/watchevent');
   };
 
